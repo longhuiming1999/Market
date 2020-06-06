@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.market.dao.OrdersDao">
+
+    <resultMap type="com.qfedu.market.entity.Orders" id="OrdersMap">
+        <result property="oid" column="oid" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="orderTime" column="order_time" jdbcType="TIMESTAMP"/>
+        <result property="totalPrice" column="total_price" jdbcType="DOUBLE"/>
+        <result property="orderStatus" column="order_status" jdbcType="INTEGER"/>
+        <result property="payType" column="pay_type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OrdersMap">
+        select
+          oid, user_id, order_time, total_price, order_status, pay_type
+        from supermarket.orders
+        where oid = #{oid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OrdersMap">
+        select
+          oid, user_id, order_time, total_price, order_status, pay_type
+        from supermarket.orders
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="OrdersMap">
+        select
+          oid, user_id, order_time, total_price, order_status, pay_type
+        from supermarket.orders
+        <where>
+            <if test="oid != null and oid != ''">
+                and oid = #{oid}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="orderTime != null">
+                and order_time = #{orderTime}
+            </if>
+            <if test="totalPrice != null">
+                and total_price = #{totalPrice}
+            </if>
+            <if test="orderStatus != null">
+                and order_status = #{orderStatus}
+            </if>
+            <if test="payType != null">
+                and pay_type = #{payType}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="oid" useGeneratedKeys="true">
+        insert into supermarket.orders(oid, user_id, order_time, total_price, order_status, pay_type)
+        values (#{oid}, #{userId}, #{orderTime}, #{totalPrice}, #{orderStatus}, #{payType})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update supermarket.orders
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="orderTime != null">
+                order_time = #{orderTime},
+            </if>
+            <if test="totalPrice != null">
+                total_price = #{totalPrice},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus},
+            </if>
+            <if test="payType != null">
+                pay_type = #{payType},
+            </if>
+        </set>
+        where oid = #{oid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from supermarket.orders where oid = #{oid}
+    </delete>
+
+</mapper>

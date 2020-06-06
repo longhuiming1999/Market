@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.market.dao.RolePermDao">
+
+    <resultMap type="com.qfedu.market.entity.RolePerm" id="RolePermMap">
+        <result property="rid" column="rid" jdbcType="INTEGER"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RolePermMap">
+        select
+          rid, pid
+        from supermarket.role_perm
+        where rid = #{rid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RolePermMap">
+        select
+          rid, pid
+        from supermarket.role_perm
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="RolePermMap">
+        select
+          rid, pid
+        from supermarket.role_perm
+        <where>
+            <if test="rid != null">
+                and rid = #{rid}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="rid" useGeneratedKeys="true">
+        insert into supermarket.role_perm()
+        values ()
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update supermarket.role_perm
+        <set>
+        </set>
+        where rid = #{rid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from supermarket.role_perm where rid = #{rid}
+    </delete>
+
+</mapper>

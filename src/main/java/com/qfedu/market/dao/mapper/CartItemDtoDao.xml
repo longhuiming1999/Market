@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.market.dao.CartItemDtoDao">
+    <resultMap id="CarItemDtoMap" type="com.qfedu.market.dto.CartItemDto">
+        <result column="cid" property="cid"/>
+        <result column="fdid" property="fdid"/>
+        <result column="good_name" property="goodsName"/>
+        <result column="gtname" property="goodsType"/>
+        <result column="img" property="img"/>
+        <result column="price" property="price"/>
+        <result column="discount" property="discount"/>
+        <result column="count" property="count"/>
+    </resultMap>
+
+    <!--根据商品ID查询商品种类-->
+    <select id="queryCartItemDtoByUid" resultMap="CarItemDtoMap">
+        select c.cid,f.fdid,f.good_name,g.gtname,f.img,f.price,f.discount,c.count from fresh_goods f
+        inner join good_type g on f.gtid = g.gtid
+        inner join cart c on c.fdid = f.fdid
+        inner join users u on u.user_id = c.user_id
+        where u.user_id = #{uid}
+        <if test="currentPage != null &amp;&amp; pageSize != null">
+            limit #{currentPage},#{pageSize}
+        </if>
+    </select>
+
+    <select id="queryCartItemDtoByFdid" resultMap="CarItemDtoMap">
+        select c.cid,f.fdid,f.good_name,g.gtname,f.img,f.price,f.discount,c.count from fresh_goods f
+        inner join good_type g on f.gtid = g.gtid
+        inner join cart c on c.fdid = f.fdid
+        inner join users u on c.user_id = u.user_id
+        where f.fdid = #{fdid} and u.user_id = #{uid}
+    </select>
+
+</mapper>

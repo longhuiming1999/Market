@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.market.dao.EvaluationDao">
+
+    <resultMap type="com.qfedu.market.entity.Evaluation" id="EvaluationMap">
+        <result property="eid" column="eid" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="fdid" column="fdid" jdbcType="VARCHAR"/>
+        <result property="detial" column="detial" jdbcType="VARCHAR"/>
+        <result property="grade" column="grade" jdbcType="INTEGER"/>
+        <result property="evaDate" column="eva_date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EvaluationMap">
+        select
+          eid, user_id, fdid, detial, grade, eva_date
+        from supermarket.evaluation
+        where eid = #{eid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EvaluationMap">
+        select
+          eid, user_id, fdid, detial, grade, eva_date
+        from supermarket.evaluation
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EvaluationMap">
+        select
+          eid, user_id, fdid, detial, grade, eva_date
+        from supermarket.evaluation
+        <where>
+            <if test="eid != null">
+                and eid = #{eid}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="fdid != null and fdid != ''">
+                and fdid = #{fdid}
+            </if>
+            <if test="detial != null and detial != ''">
+                and detial = #{detial}
+            </if>
+            <if test="grade != null">
+                and grade = #{grade}
+            </if>
+            <if test="evaDate != null">
+                and eva_date = #{evaDate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="eid" useGeneratedKeys="true">
+        insert into supermarket.evaluation(user_id, fdid, detial, grade, eva_date)
+        values (#{userId}, #{fdid}, #{detial}, #{grade}, #{evaDate})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update supermarket.evaluation
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="fdid != null and fdid != ''">
+                fdid = #{fdid},
+            </if>
+            <if test="detial != null and detial != ''">
+                detial = #{detial},
+            </if>
+            <if test="grade != null">
+                grade = #{grade},
+            </if>
+            <if test="evaDate != null">
+                eva_date = #{evaDate},
+            </if>
+        </set>
+        where eid = #{eid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from supermarket.evaluation where eid = #{eid}
+    </delete>
+
+</mapper>

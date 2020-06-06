@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.market.dao.LogisticsDao">
+
+    <resultMap type="com.qfedu.market.entity.Logistics" id="LogisticsMap">
+        <result property="lid" column="lid" jdbcType="INTEGER"/>
+        <result property="account" column="account" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="oid" column="oid" jdbcType="VARCHAR"/>
+        <result property="did" column="did" jdbcType="INTEGER"/>
+        <result property="payTime" column="pay_time" jdbcType="TIMESTAMP"/>
+        <result property="packageTime" column="package_time" jdbcType="TIMESTAMP"/>
+        <result property="beginTime" column="begin_time" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LogisticsMap">
+        select
+          lid, account, user_id, oid, did, pay_time, package_time, begin_time, end_time, status
+        from supermarket.logistics
+        where lid = #{lid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="LogisticsMap">
+        select
+          lid, account, user_id, oid, did, pay_time, package_time, begin_time, end_time, status
+        from supermarket.logistics
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="LogisticsMap">
+        select
+        lid, account, user_id, oid, did, pay_time, package_time, begin_time, end_time, status
+        from supermarket.logistics
+        <where>
+            <if test="lid != null">
+                and lid = #{lid}
+            </if>
+            <if test="account != null and account != ''">
+                and account = #{account}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="oid != null and oid != ''">
+                and oid = #{oid}
+            </if>
+            <if test="did != null">
+                and did = #{did}
+            </if>
+            <if test="payTime != null">
+                and pay_time = #{payTime}
+            </if>
+            <if test="packageTime != null">
+                and package_time = #{packageTime}
+            </if>
+            <if test="beginTime != null">
+                and begin_time = #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="lid" useGeneratedKeys="true">
+        insert into supermarket.logistics(account, user_id, oid, did, pay_time, package_time, begin_time, end_time, status)
+        values (#{account}, #{userId}, #{oid}, #{did}, #{payTime}, #{packageTime}, #{beginTime}, #{endTime}, #{status})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update supermarket.logistics
+        <set>
+            <if test="account != null and account != ''">
+                account = #{account},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="oid != null and oid != ''">
+                oid = #{oid},
+            </if>
+            <if test="did != null">
+                did = #{did},
+            </if>
+            <if test="payTime != null">
+                pay_time = #{payTime},
+            </if>
+            <if test="packageTime != null">
+                package_time = #{packageTime},
+            </if>
+            <if test="beginTime != null">
+                begin_time = #{beginTime},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where lid = #{lid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from supermarket.logistics where lid = #{lid}
+    </delete>
+
+</mapper>

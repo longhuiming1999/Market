@@ -1,0 +1,76 @@
+[{
+	"title" : "后台首页",
+	"icon" : "icon-computer",
+	"href" : "page/main.html",
+	"spread" : false
+},{
+	"title" : "用户管理",
+	"icon" : "&#xe612;",
+	"href" : "page/userAdmin/useradmin.jsp",
+	"spread" : false
+},{
+	"title" : "商品管理",
+	"icon" : "&#xe857;",
+	"href" : "page/links/linksList.jsp",
+	"spread" : false
+},{
+	"title" : "订单管理",
+	"icon" : "&#xe656;",
+	"href" : "page/systemParameter/systemParameter.html",
+	"spread" : false
+},{
+	"title" : "销量展示",
+	"icon" : "&#xe629;",
+	"href" : "page/systemParameter/systemParameter.html",
+	"spread" : false
+},{
+	"title" : "权限管理",
+	"icon" : "&#xe613;",
+	"href" : "",
+	"spread" : false,
+	"children" : [
+		{
+			"title" : "404页面",
+			"icon" : "&#xe61c;",
+			"href" : "page/404.html",
+			"spread" : false
+		},
+		{
+			"title" : "登录",
+			"icon" : "&#xe609;",
+			"href" : "page/login/login.html",
+			"spread" : false,
+			"target" : "_blank"
+		},{
+			"title" : "物流管理员权限",
+			"icon" : "&#xe631;",
+			"href" : "page/systemParameter/systemParameter.html",
+			"spread" : false
+		},{
+			"title" : "员工管理员权限",
+			"icon" : "&#xe631;",
+			"href" : "page/systemParameter/systemParameter.html",
+			"spread" : false
+		},{
+			"title" : "用户管理员权限",
+			"icon" : "&#xe631;",
+			"href" : "page/systemParameter/systemParameter.html",
+			"spread" : false
+		},{
+			"title" : "商品管理员权限",
+			"icon" : "&#xe631;",
+			"href" : "page/systemParameter/systemParameter.html",
+			"spread" : false
+		},{
+			"title" : "订单管理员权限",
+			"icon" : "&#xe631;",
+			"href" : "page/systemParameter/systemParameter.html",
+			"spread" : false
+		},{
+			"title" : "系统管理员权限",
+			"icon" : "&#xe631;",
+			"href" : "page/systemParameter/systemParameter.html",
+			"spread" : false
+		}
+	]
+}]

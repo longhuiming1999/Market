@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.market.dao.RolesDao">
+
+    <resultMap type="com.qfedu.market.entity.Roles" id="RolesMap">
+        <result property="rid" column="rid" jdbcType="INTEGER"/>
+        <result property="rname" column="rname" jdbcType="VARCHAR"/>
+        <result property="detial" column="detial" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RolesMap">
+        select
+          rid, rname, detial
+        from supermarket.roles
+        where rid = #{rid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RolesMap">
+        select
+          rid, rname, detial
+        from supermarket.roles
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="RolesMap">
+        select
+          rid, rname, detial
+        from supermarket.roles
+        <where>
+            <if test="rid != null">
+                and rid = #{rid}
+            </if>
+            <if test="rname != null and rname != ''">
+                and rname = #{rname}
+            </if>
+            <if test="detial != null and detial != ''">
+                and detial = #{detial}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="rid" useGeneratedKeys="true">
+        insert into supermarket.roles(rname, detial)
+        values (#{rname}, #{detial})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update supermarket.roles
+        <set>
+            <if test="rname != null and rname != ''">
+                rname = #{rname},
+            </if>
+            <if test="detial != null and detial != ''">
+                detial = #{detial},
+            </if>
+        </set>
+        where rid = #{rid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from supermarket.roles where rid = #{rid}
+    </delete>
+
+</mapper>

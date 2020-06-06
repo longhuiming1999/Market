@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.market.dao.FreshGoodsDao">
+
+    <resultMap type="com.qfedu.market.entity.FreshGoods" id="FreshGoodsMap">
+        <result property="fdid" column="fdid" jdbcType="VARCHAR"/>
+        <result property="goodName" column="good_name" jdbcType="VARCHAR"/>
+        <result property="gtid" column="gtid" jdbcType="INTEGER"/>
+        <result property="img" column="img" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="OTHER"/>
+        <result property="discount" column="discount" jdbcType="INTEGER"/>
+        <result property="preference" column="preference" jdbcType="INTEGER"/>
+        <result property="ifPromotion" column="if_promotion" jdbcType="INTEGER"/>
+        <result property="lastSales" column="last_sales" jdbcType="INTEGER"/>
+        <result property="currentSales" column="current_sales" jdbcType="INTEGER"/>
+        <result property="countSales" column="count_sales" jdbcType="INTEGER"/>
+        <result property="summery" column="summery" jdbcType="VARCHAR"/>
+        <result property="attr1" column="attr1" jdbcType="VARCHAR"/>
+        <result property="attr2" column="attr2" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getFreshGoodsByGoodsNameAndGtid" resultMap="FreshGoodsMap">
+        select
+        fdid, good_name, gtid, img, price, discount, preference, if_promotion, last_sales, current_sales, count_sales, summery, attr1, attr2
+        from supermarket.fresh_goods
+        where good_name like '%${goodsName}%' and gtid = #{gtid}
+    </select>
+
+
+    <select id="getFreshGoodsByChoose" resultMap="FreshGoodsMap">
+        select
+        fdid, good_name, gtid, img, price, discount, preference, if_promotion, last_sales, current_sales, count_sales,
+        summery, attr1, attr2
+        from supermarket.fresh_goods
+        <where>
+            <if test="pre != null">
+                preference = #{pre}
+            </if>
+            <if test="discount != null">
+                and discount >= #{discount}
+            </if>
+            <if test="gtid != null">
+                and gtid = #{gtid}
+            </if>
+        </where>
+    </select>
+
+    <!--折扣查询-->
+    <select id="getDiscountGoods" resultMap="FreshGoodsMap">
+        select
+          fdid, good_name, gtid, img, price, discount, preference, if_promotion, last_sales, current_sales, count_sales, summery, attr1, attr2
+        from supermarket.fresh_goods
+        where discount &lt; 100
+    </select>
+
+    <!--特价查询-->
+    <select id="getSpecialGood" resultMap="FreshGoodsMap">
+        select
+          fdid, good_name, gtid, img, price, discount, preference, if_promotion, last_sales, current_sales, count_sales, summery, attr1, attr2
+        from supermarket.fresh_goods
+        where discount &lt;= 50
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="FreshGoodsMap">
+        select
+          fdid, good_name, gtid, img, price, discount, preference, if_promotion, last_sales, current_sales, count_sales, summery, attr1, attr2
+        from supermarket.fresh_goods
+        where fdid = #{fdid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="FreshGoodsMap">
+        select
+          fdid, good_name, gtid, img, price, discount, preference, if_promotion, last_sales, current_sales, count_sales, summery, attr1, attr2
+        from supermarket.fresh_goods
+        where gtid = #{gtid}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="FreshGoodsMap">
+        select
+        fdid, good_name, gtid, img, price, discount, preference, if_promotion, last_sales, current_sales, count_sales,
+        summery, attr1, attr2
+        from supermarket.fresh_goods
+        <where>
+            <if test="fdid != null and fdid != ''">
+                and fdid = #{fdid}
+            </if>
+            <if test="goodName != null and goodName != ''">
+                and good_name = #{goodName}
+            </if>
+            <if test="gtid != null">
+                and gtid = #{gtid}
+            </if>
+            <if test="img != null and img != ''">
+                and img = #{img}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="discount != null">
+                and discount = #{discount}
+            </if>
+            <if test="preference != null">
+                and preference = #{preference}
+            </if>
+            <if test="ifPromotion != null">
+                and if_promotion = #{ifPromotion}
+            </if>
+            <if test="lastSales != null">
+                and last_sales = #{lastSales}
+            </if>
+            <if test="currentSales != null">
+                and current_sales = #{currentSales}
+            </if>
+            <if test="countSales != null">
+                and count_sales = #{countSales}
+            </if>
+            <if test="summery != null and summery != ''">
+                and summery = #{summery}
+            </if>
+            <if test="attr1 != null and attr1 != ''">
+                and attr1 = #{attr1}
+            </if>
+            <if test="attr2 != null and attr2 != ''">
+                and attr2 = #{attr2}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="fdid" useGeneratedKeys="true">
+        insert into supermarket.fresh_goods(good_name, gtid, img, price, discount, preference, if_promotion, last_sales, current_sales, count_sales, summery, attr1, attr2)
+        values (#{goodName}, #{gtid}, #{img}, #{price}, #{discount}, #{preference}, #{ifPromotion}, #{lastSales}, #{currentSales}, #{countSales}, #{summery}, #{attr1}, #{attr2})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update supermarket.fresh_goods
+        <set>
+            <if test="goodName != null and goodName != ''">
+                good_name = #{goodName},
+            </if>
+            <if test="gtid != null">
+                gtid = #{gtid},
+            </if>
+            <if test="img != null and img != ''">
+                img = #{img},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="discount != null">
+                discount = #{discount},
+            </if>
+            <if test="preference != null">
+                preference = #{preference},
+            </if>
+            <if test="ifPromotion != null">
+                if_promotion = #{ifPromotion},
+            </if>
+            <if test="lastSales != null">
+                last_sales = #{lastSales},
+            </if>
+            <if test="currentSales != null">
+                current_sales = #{currentSales},
+            </if>
+            <if test="countSales != null">
+                count_sales = #{countSales},
+            </if>
+            <if test="summery != null and summery != ''">
+                summery = #{summery},
+            </if>
+            <if test="attr1 != null and attr1 != ''">
+                attr1 = #{attr1},
+            </if>
+            <if test="attr2 != null and attr2 != ''">
+                attr2 = #{attr2},
+            </if>
+        </set>
+        where fdid = #{fdid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from supermarket.fresh_goods where fdid = #{fdid}
+    </delete>
+
+</mapper>

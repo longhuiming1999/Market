@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.market.dao.AddressDao">
+
+    <resultMap type="com.qfedu.market.entity.Address" id="AddressMap">
+        <result property="did" column="did" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="township" column="township" jdbcType="VARCHAR"/>
+        <result property="detial" column="detial" jdbcType="VARCHAR"/>
+        <result property="types" column="types" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--根据uid查询-->
+    <select id="queryByUid" resultMap="AddressMap">
+        select
+          did, user_id, province, city, township, detial, types
+        from supermarket.address
+        where user_id = #{uid}
+    </select>
+
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AddressMap">
+        select
+          did, user_id, province, city, township, detial, types
+        from supermarket.address
+        where did = #{did}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AddressMap">
+        select
+          did, user_id, province, city, township, detial, types
+        from supermarket.address
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AddressMap">
+        select
+        did, user_id, province, city, township, detial, types
+        from supermarket.address
+        <where>
+            <if test="did != null">
+                and did = #{did}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="township != null and township != ''">
+                and township = #{township}
+            </if>
+            <if test="detial != null and detial != ''">
+                and detial = #{detial}
+            </if>
+            <if test="types != null">
+                and types = #{types}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="did" useGeneratedKeys="true">
+        insert into supermarket.address(user_id, province, city, township, detial, types)
+        values (#{userId}, #{province}, #{city}, #{township}, #{detial}, #{types})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update supermarket.address
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="township != null and township != ''">
+                township = #{township},
+            </if>
+            <if test="detial != null and detial != ''">
+                detial = #{detial},
+            </if>
+            <if test="types != null">
+                types = #{types},
+            </if>
+        </set>
+        where did = #{did}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from supermarket.address where did = #{did}
+    </delete>
+
+</mapper>
